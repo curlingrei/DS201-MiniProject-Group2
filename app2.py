@@ -1,9 +1,38 @@
 import os
 import csv
 from datetime import datetime
+from enum import Enum
+from operator import itemgetter
+
+class Priority(Enum):
+  HIGH = 3
+  MEDIUM = 2
+  LOW = 1
 
 def main():
   tasks_list = []
+#   tasks_list = [
+#   {
+#     "title": "task1",
+#     "priority": "high",
+#     "deadline": "2025-10-10"
+#   },
+#   {
+#     "title": "task2",
+#     "priority": "low",
+#     "deadline": "2025-10-10"
+#   },
+#   {
+#     "title": "task3",
+#     "priority": "medium",
+#     "deadline": "2025-10-10"
+#   },
+#   {
+#     "title": "task4",
+#     "priority": "medium",
+#     "deadline": "2025-10-09"
+#   },
+# ]
   # Restore tasks
   if os.path.isfile("tasks.csv"):
     with open("tasks.csv", newline='') as csvfile:
@@ -52,9 +81,20 @@ def main():
       continue
 
 def add_task(tasks):
-  new_task_title = input("Enter the task title: ")
   while True:
-    new_task_priority = input("Enter the task priority(high, midium, low): ")
+    new_task_title = input("Enter the task title: ")
+    if new_task_title == "":
+      print("Task title is empty. Try again")
+      continue
+    elif any(new_task_title == task['title'] for task in tasks):
+      print("Task title is already registered. The task title shoule be unique.")
+      continue
+    else:
+      break
+
+
+  while True:
+    new_task_priority = input("Enter the task priority(high, medium, low): ")
     if new_task_priority not in ["high", "medium", "low"]:
       print("Choose one from high, medium, or low")
       continue
@@ -73,7 +113,7 @@ def add_task(tasks):
       print("You need to input the deadline in YYYY-MM-DD format")
       continue
 
-  print(f"{new_task_title} has been added to the list.\n")
+  print(f"\'{new_task_title}\' has been added to the list.\n")
   tasks.append({
       "title": new_task_title,
       "priority": new_task_priority,
@@ -90,7 +130,7 @@ def remove_task(tasks):
       for task in tasks:
         if target_task == task['title']:
           tasks.remove(task)
-          print(f"{target_task} has been removed from the list.\n")
+          print(f"\'{target_task}\' has been removed from the list.\n")
           break
       break
     else:
@@ -105,10 +145,13 @@ def view_tasks(tasks):
 
 def suggest_task(tasks):
   print("Good afternoon! Here are some tasks you might want to work on:")
-  tasks = sorted(
-    tasks,
-    key = lambda x: (x['priority'], x['deadline'], x['title'])
-    )
+  # tasks = sorted(
+  #   tasks,
+  #   key = lambda x: (x['priority'], x['deadline'], x['title'])
+  # )
+
+  # tasks.sort(key=lambda task: Priority[task["priority"].upper()].value, reverse=True)
+  tasks.sort(key=lambda task: (-Priority[task["priority"].upper()].value, task["deadline"]))
 
   ## Show only top 3 tasks
   i = 0
