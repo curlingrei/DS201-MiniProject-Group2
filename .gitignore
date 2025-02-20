@@ -170,5 +170,6 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
-# tasks.txt
-./tasks.txt
+# saved tasks
+tasks.txt
+tasks.csv
