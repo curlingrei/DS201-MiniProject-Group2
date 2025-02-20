@@ -8,6 +8,7 @@ def main():
   else:
     tasks_list = []
 
+
   while True:
     # Display Menu
     print("To-Do List Application")
