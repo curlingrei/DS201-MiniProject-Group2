@@ -5,9 +5,9 @@ from enum import Enum
 from operator import itemgetter
 
 class Priority(Enum):
-  HIGH = 3
+  HIGH = 1
   MEDIUM = 2
-  LOW = 1
+  LOW = 3
 
 def main():
   tasks_list = []
@@ -124,9 +124,7 @@ def view_tasks(tasks):
 
 def suggest_task(tasks):
   print("Good afternoon! Here are some tasks you might want to work on:")
-
-  # tasks.sort(key=lambda task: Priority[task["priority"].upper()].value, reverse=True)
-  tasks.sort(key=lambda task: (-Priority[task["priority"].upper()].value, task["deadline"]))
+  tasks.sort(key=lambda task: (Priority[task["priority"].upper()].value, task["deadline"]))
 
   ## Show only top 3 tasks
   i = 0
