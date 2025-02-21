@@ -16,7 +16,12 @@ def main():
     print("3. View Tasks")
     print("4. Exit")
 
-    choice = int(input("Enter your choice with a number: "))
+    try:
+      choice = int(input("Enter your choice with a number: "))
+    except ValueError:
+      print("Invalid Input! Only numbers are allowed to input")
+      print()
+      continue
     print()
 
     if choice == 1:
@@ -36,9 +41,15 @@ def main():
       continue
 
 def add_task(tasks):
-    new_task = input("Enter the task title: ")
-    print(f"{new_task} has been added to the list.\n")
-    tasks.append(new_task)
+    while True:
+      new_task = input("Enter the task title: ")
+      if new_task == "":
+        print("Task title is empty. Try again")
+        continue
+      else:
+        print(f"\'{new_task}\' has been added to the list.\n")
+        tasks.append(new_task)
+        break
 
 def remove_task(tasks):
   print("You have the following tasks")
@@ -46,7 +57,7 @@ def remove_task(tasks):
   while True:
     target_task = input("Enter the task to remove: ")
     if target_task in tasks:
-      print(f"{target_task} has been removed from the list.\n")
+      print(f"\'{target_task}\' has been removed from the list.\n")
       tasks.remove(target_task)
       break
     else:
