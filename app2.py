@@ -11,28 +11,7 @@ class Priority(Enum):
 
 def main():
   tasks_list = []
-#   tasks_list = [
-#   {
-#     "title": "task1",
-#     "priority": "high",
-#     "deadline": "2025-10-10"
-#   },
-#   {
-#     "title": "task2",
-#     "priority": "low",
-#     "deadline": "2025-10-10"
-#   },
-#   {
-#     "title": "task3",
-#     "priority": "medium",
-#     "deadline": "2025-10-10"
-#   },
-#   {
-#     "title": "task4",
-#     "priority": "medium",
-#     "deadline": "2025-10-09"
-#   },
-# ]
+
   # Restore tasks
   if os.path.isfile("tasks.csv"):
     with open("tasks.csv", newline='') as csvfile:
@@ -145,10 +124,6 @@ def view_tasks(tasks):
 
 def suggest_task(tasks):
   print("Good afternoon! Here are some tasks you might want to work on:")
-  # tasks = sorted(
-  #   tasks,
-  #   key = lambda x: (x['priority'], x['deadline'], x['title'])
-  # )
 
   # tasks.sort(key=lambda task: Priority[task["priority"].upper()].value, reverse=True)
   tasks.sort(key=lambda task: (-Priority[task["priority"].upper()].value, task["deadline"]))
